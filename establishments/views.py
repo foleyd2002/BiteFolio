@@ -18,13 +18,30 @@ def upload_establishment(request):
 
 def list_establishments(request):
     establishments = Establishment.objects.all()
+    
     type_filter = request.GET.get('type')
+    rating_filter = request.GET.get('rating')
+    county_filter = request.GET.get('county')
+    sort_order = request.GET.get('sort')
+
     if type_filter:
         establishments = establishments.filter(type=type_filter)
 
-    mapbox_token = config('MAPBOX_TOKEN')  # Get the Mapbox token from the environment
+    if rating_filter:
+        establishments = establishments.filter(rating=int(rating_filter))
+
+    if county_filter:
+        establishments = establishments.filter(county=county_filter)
+
+    if sort_order == 'asc':
+        establishments = establishments.order_by('rating')
+    elif sort_order == 'desc':
+        establishments = establishments.order_by('-rating')
+
+    mapbox_token = config('MAPBOX_TOKEN')
 
     return render(request, 'establishments/list_establishment.html', {
         'establishments': establishments,
-        'mapbox_token': mapbox_token  # Pass the token to the template
+        'mapbox_token': mapbox_token,
+        'counties': Establishment.COUNTIES
     })

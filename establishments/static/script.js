@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (table) {
         const headers = table.querySelectorAll('th');
         const tableBody = table.querySelector('tbody');
-        const rows = tableBody.querySelectorAll('tr');
+        const rows = Array.from(tableBody.querySelectorAll('tr'));
 
         headers.forEach((header, index) => {
             header.addEventListener('click', () => {
@@ -14,19 +14,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const sortTable = (index) => {
             const direction = headers[index].getAttribute('data-direction') || 'asc';
-            const sortedRows = Array.from(rows).sort((a, b) => {
-                const aValue = a.querySelectorAll('td')[index].textContent.trim();
-                const bValue = b.querySelectorAll('td')[index].textContent.trim();
+            const sortedRows = rows.slice().sort((a, b) => {
+                let aValue = a.cells[index].textContent.trim();
+                let bValue = b.cells[index].textContent.trim();
+
+                // Check if values are numbers and sort numerically
+                if (!isNaN(aValue) && !isNaN(bValue)) {
+                    return direction === 'asc' ? aValue - bValue : bValue - aValue;
+                }
 
                 return direction === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
             });
 
             headers[index].setAttribute('data-direction', direction === 'asc' ? 'desc' : 'asc');
 
-            while (tableBody.firstChild) {
-                tableBody.removeChild(tableBody.firstChild);
-            }
-
+            // Reattach sorted rows
+            tableBody.innerHTML = "";
             sortedRows.forEach(row => tableBody.appendChild(row));
         };
     }
@@ -35,14 +38,17 @@ document.addEventListener('DOMContentLoaded', function () {
     const navLinks = document.querySelectorAll('nav ul li a');
     navLinks.forEach(link => {
         link.addEventListener('click', function (event) {
-            event.preventDefault();
             const targetId = this.getAttribute('href');
+
             if (targetId.startsWith('#')) {
-                document.querySelector(targetId).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                event.preventDefault();
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
             } else {
-                window.location.href = targetId; // Navigate to other pages
+                window.location.href = targetId; // Navigate to external links
             }
         });
     });

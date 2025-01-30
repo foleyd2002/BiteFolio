@@ -281,3 +281,33 @@ th:hover {
     position: relative; /* Make sure the map is positioned correctly */
 }
 
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -320px;
+    width: 300px;
+    height: 100%;
+    background: white;
+    box-shadow: -3px 0 5px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    transition: right 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar button {
+    width: 100%;
+    margin-top: 10px;
+}
+
+#closeFilterBtn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
