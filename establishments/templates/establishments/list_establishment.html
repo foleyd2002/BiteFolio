@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List and Map of Establishments</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.8.0/mapbox-gl.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static 'images/bitefolio-high-resolution-logo.png' %}" alt="BiteFolio Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'upload_establishment' %}">Upload</a></li>
+                <li><a href="{% url 'list_establishments' %}">List</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>List of Establishments</h1>
+        <form method="get">
+            <label for="type">Filter by Type:</label>
+            <select name="type" id="type">
+                <option value="">All</option>
+                <option value="food">Food</option>
+                <option value="drink">Drink</option>
+            </select>
+            <button type="submit">Filter</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Town</th>
+                    <th>County</th>
+                    <th>Type</th>
+                    <th>Rating</th>
+                    <th>Visited At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for establishment in establishments %}
+                <tr>
+                    <td>{{ establishment.name }}</td>
+                    <td>{{ establishment.town }}</td>
+                    <td>{{ establishment.county }}</td>
+                    <td>{{ establishment.type }}</td>
+                    <td>{{ establishment.rating }}</td>
+                    <td>{{ establishment.visited_at }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6">No establishments found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Map container -->
+        <div id="map" style="height: 400px;"></div>
+    </main>
+
+    <footer>
+        <div class="container"> 
+            <p>&copy; 2025 Food & Drink Tracker. Designed for food lovers everywhere.</p>
+        </div>
+    </footer>
+
+    <!-- Add Mapbox JS -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.0/mapbox-gl.js"></script>
+    <script>
+        mapboxgl.accessToken = '{{ mapbox_token }}'; // Replace with your Mapbox access token
+
+        // Create the map
+        var map = new mapboxgl.Map({
+            container: 'map', // The ID of the map container element
+            style: 'mapbox://styles/mapbox/streets-v11', // The style of the map
+            center: [-6.2603, 53.3498], // Set initial center to Dublin            
+            zoom: 10 // Set the zoom level
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiteFolio</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <script src="{% static 'script.js' %}" defer></script>
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static 'images/bitefolio-high-resolution-logo.png' %}" alt="BiteFolio Logo">
+        </div>
+        <nav>
+
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'upload_establishment' %}">Upload</a></li>
+                <li><a href="{% url 'list_establishments' %}">List</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Welcome to Food & Drink Tracker</h1>
+        <p>Explore and rate your favorite restaurants, cafes, and bars. Start by uploading your own favorite places or browsing existing listings.</p>
+        <a href="{% url 'upload_establishment' %}" class="button">Upload a Place</a>
+        <a href="{% url 'list_establishments' %}" class="button">Explore Listings</a>        
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Food & Drink Tracker. Designed for food lovers everywhere.</p>
+    </footer>
+</body>
+</html>

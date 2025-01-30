@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Establishment</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static 'images/bitefolio-high-resolution-logo.png' %}" alt="BiteFolio Logo">
+        </div>
+        <nav>
+
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'upload_establishment' %}">Upload</a></li>
+                <li><a href="{% url 'list_establishments' %}">List</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Upload New Establishment</h1>
+        <div class="form-container">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-content">
+                    <div class="form-group">
+                        <label for="name">Establishment Name</label>
+                        {{ form.name }}
+                    </div>
+                    <div class="form-group">
+                        <label for="county">County</label>
+                        {{ form.county }}
+                    </div>
+                    <div class="form-group">
+                        <label for="town">Town</label>
+                        {{ form.town }}
+                    </div>
+                    <div class="form-group">
+                        <label for="type">Type</label>
+                        {{ form.type }}
+                    </div>
+                    <div class="form-group">
+                        <label for="rating">Rating</label>
+                        {{ form.rating }}
+                    </div>
+                    <div class="form-group">
+                        <label for="visited_at">Visited At</label>
+                        {{ form.visited_at }}
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">Upload</button>
+            </form>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container"> 
+            <p>&copy; 2025 Food & Drink Tracker. Designed for food lovers everywhere.</p>
+        </div>
+    </footer>
+</body>
+</html>
